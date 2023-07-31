@@ -18,4 +18,5 @@ npx helm-values
 
 ## Todo
 
+- TypeScript
 - multiline comments
