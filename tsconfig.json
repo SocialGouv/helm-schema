@@ -5,8 +5,10 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "allowJs": true,
+    "checkJs": true,
     "strict": false
   },
-  "files": ["index.ts"],
+  "files": ["index.mjs"],
   "exclude": ["node_modules/*"]
 }

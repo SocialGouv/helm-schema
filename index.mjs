@@ -60,12 +60,10 @@ identity:
 
 `;
 
-const parsed = new Parser().parse(yaml);
-
 /**
  * Parse comment node with JSDoc like annotations
- * @param {string} line
- * @returns {{description, type, required}}
+ * @param {import("yaml/dist/parse/cst").Token} node
+ * @returns {{description: string, type: string, required: string}}
  */
 const parseCommentLine = (node) => {
   if (node.source.match(/# @section/)) {
@@ -99,8 +97,8 @@ const parseCommentLine = (node) => {
 
 /**
  * Extract and parse all comments from a YAML CST tree
- * @param {Token} root
- * @param {Token?} child
+ * @param {import("yaml/dist/parse/cst").Token} root
+ * @param {import("yaml/dist/parse/cst").Token?} child
  * @returns
  */
 const getFlatComments = (root, child = null) => {
@@ -126,8 +124,8 @@ const getFlatComments = (root, child = null) => {
 
 /**
  * Extract values from a YAML CST tree
- * @param {Token} root
- * @param {Token?} child
+ * @param {import("yaml/dist/parse/cst").Token} root
+ * @param {import("yaml/dist/parse/cst").Token?} child
  * @returns
  */
 const getValues = (root, child = null) => {
@@ -181,8 +179,11 @@ const getNodesOffsets = (values) => {
   return offsets;
 };
 
-/** @type {Token[]} */
+const parsed = new Parser().parse(yaml);
+
+/** @type {import("yaml/dist/parse/cst").Token[]} */
 const tokens = [];
+
 for (const token of parsed) {
   console.log(JSON.stringify(token, null, 2));
   tokens.push(token);
@@ -199,6 +200,11 @@ const values = tokens.flatMap((token) => getValues(tokens, token));
 
 const offsets = getNodesOffsets(values);
 
+/**
+ *
+ * @param {number} offset
+ * @returns
+ */
 const getComment = (offset) => {
   const reversedComments = [...comments].reverse();
   const closestComment = reversedComments.find((c) => c.offset < offset);
