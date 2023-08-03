@@ -8,75 +8,9 @@ import {
   Document,
   FlowCollection,
   BlockScalar,
-  Directive,
   FlowScalar,
   SourceToken,
 } from "yaml/dist/parse/cst";
-
-const yaml1 = `
-
-# @param {string} version App version
-version:
-name: juju
-
-# @param {number} age Age of the person
-age: 42
-
-# @section address
-address:
-    # @param {string} city Living city
-    city: Paname
-    # @param {number} age Age
-    age: 42
-    # @param {string} country Living country
-    country: FR
-    # -- @param {number} bros How many bros
-    bros: 1
-
-identity:
-    family:
-        father:
-            # @param {string} [name] Name of the father
-            name:
-            # @param {string} [sister] Name of the sister
-            sister:
-            # @param {string} [brother] Name of the brother
-            brother:
-
-# @param {number} hits How many hits ?
-age: 9876876
-`;
-
-const yaml = `
-
-identity:
-    family:
-        father:
-            # @param {string} [name] Name of the father
-            father:
-            # @param {string} [sister] Name of the sister
-            sister:
-            mother:
-            # @param {string} [brother] Name of the brother
-            brother:
-    family2:
-        father:
-            # @param {string} name Name of the father
-            name: dad
-        sister
-            # @param {string} first first name of the sister
-            first:
-            # @param {string} [last] last name of the sister
-            last:
-            mother:
-
-`;
-
-function hasSource(
-  object: any
-): object is SourceToken | FlowScalar | BlockScalar {
-  return "source" in object;
-}
 
 interface SectionComment {
   description: string;
@@ -90,46 +24,23 @@ interface ParsedComment {
   offset: number;
 }
 
-const cleanDescriptionText = (text: string) =>
-  text
-    .replace(/# @section (.*)/, "$1")
-    .replace(/\s*#+\s*(?:-)*\s*(.*)/, "$1")
-    .trim();
-/**
- * Parse node comment  with JSDoc like annotations
- */
-const parseCommentLine = (
-  node: Token
-): SectionComment | ParsedComment | undefined => {
-  if (hasSource(node)) {
-    if (node.source.match(/# @section/)) {
-      return {
-        description: cleanDescriptionText(node.source),
-        offset: node.offset,
-      };
-    }
-    const parsedLine = commentParser(
-      node.source.replace(/^\s*#+\s*(?:-)*\s*(.*)/, "/** $1 */") // replaces starting with # or # --
-    );
-    if (parsedLine[0].tags.length) {
-      const tag = parsedLine[0].tags[0];
-      const type = tag.type && tag.type.replace(/^\{(.*)\}$/g, "$1");
-      const name = parsedLine[0]?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
-      return {
-        key: name.replace(/[\[\]]/g, ""),
-        description: cleanDescriptionText(tag.description),
-        type: type.replace(/(.*)\?$/, "$1"), // remove question mark
-        required: name ? name.indexOf("[") === -1 : true,
-        offset: node.offset,
-      };
-    }
-    return {
-      description: cleanDescriptionText(node.source),
-      required: true,
-      offset: node.offset,
-    };
-  }
-};
+interface YamlScalar {
+  description?: string;
+  type?: string;
+  required?: boolean;
+  offset: number;
+  key: string;
+  value: any;
+  children?: YamlScalar[];
+  parent?: Token;
+  comment?: {};
+}
+
+function hasSource(
+  object: any
+): object is SourceToken | FlowScalar | BlockScalar {
+  return "source" in object;
+}
 
 function hasSep(
   object: any
@@ -172,9 +83,47 @@ function hasOffset(object: any): object is ParsedComment {
   return "offset" in object;
 }
 
-// function hasParent(object: any): object is CollectionItem & { parent: any } {
-//   return "parent" in object;
-// }
+const cleanDescriptionText = (text: string) =>
+  text
+    .replace(/# @section (.*)/, "$1")
+    .replace(/\s*#+\s*(?:-)*\s*(.*)/, "$1")
+    .trim();
+
+/**
+ * Parse node comment with JSDoc like annotations
+ */
+const parseCommentLine = (
+  node: Token
+): SectionComment | ParsedComment | undefined => {
+  if (hasSource(node)) {
+    if (node.source.match(/# @section/)) {
+      return {
+        description: cleanDescriptionText(node.source),
+        offset: node.offset,
+      };
+    }
+    const parsedLine = commentParser(
+      node.source.replace(/^\s*#+\s*(?:-)*\s*(.*)/, "/** $1 */") // replaces starting with # or # --
+    );
+    if (parsedLine[0].tags.length) {
+      const tag = parsedLine[0].tags[0];
+      const type = tag.type && tag.type.replace(/^\{(.*)\}$/g, "$1");
+      const name = parsedLine[0]?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
+      return {
+        key: name.replace(/[\[\]]/g, ""),
+        description: cleanDescriptionText(tag.description),
+        type: type.replace(/(.*)\?$/, "$1"), // remove question mark
+        required: name ? name.indexOf("[") === -1 : true,
+        offset: node.offset,
+      };
+    }
+    return {
+      description: cleanDescriptionText(node.source),
+      required: true,
+      offset: node.offset,
+    };
+  }
+};
 
 /**
  * Extract and parse all comments from a CST node
@@ -201,18 +150,6 @@ const getCommentTokens = (root: Token[], child?: Token | CollectionItem) => {
   }
   return comments;
 };
-
-interface YamlScalar {
-  description?: string;
-  type?: string;
-  required?: boolean;
-  offset: number;
-  key: string;
-  value: any;
-  children?: YamlScalar[];
-  parent?: Token;
-  comment?: {};
-}
 
 const getValues = (
   root: Token[],
