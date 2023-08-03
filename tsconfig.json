@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "strict": false,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true,
-    "allowJs": true,
-    "checkJs": true,
-    "strict": false
+    "sourceMap": true
   },
-  "files": ["index.mjs"],
-  "exclude": ["node_modules/*"]
+  "exclude": ["node_modules/*", "src/*.test.ts"]
 }
