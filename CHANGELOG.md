@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/SocialGouv/helm-schema/compare/v1.0.4...v1.0.5) (2023-08-04)
+
+
+### Bug Fixes
+
+* build ([d6ee08e](https://github.com/SocialGouv/helm-schema/commit/d6ee08ee9a816693945661fda582af5c7cd25da2))
+
 ## [1.0.4](https://github.com/SocialGouv/helm-schema/compare/v1.0.3...v1.0.4) (2023-08-04)
 
 
