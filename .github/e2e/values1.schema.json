@@ -7,7 +7,7 @@
   "properties": {
     "replicaCount": {
       "type": "number",
-      "description": "number of replicas in the pgweb deployment",
+      "title": "number of replicas in the pgweb deployment",
       "default": "1"
     },
     "enabled": {
@@ -89,7 +89,7 @@
       "properties": {
         "create": {
           "type": "boolean",
-          "description": "Specifies whether a service account should be created",
+          "title": "Specifies whether a service account should be created",
           "default": "false"
         },
         "annotations": {
