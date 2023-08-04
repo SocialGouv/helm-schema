@@ -25,6 +25,7 @@ jobs:
 
       - name: Yarn build
         run: |
+          cd demo
           yarn build
 
       # deploy build to gh-pages
