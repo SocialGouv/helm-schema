@@ -6,7 +6,7 @@ export default defineConfig({
   base: "/helm-schema",
   plugins: [react()],
   define: {
-    global: {},
+    //global: {},
     "process.env": {},
     __dirname: null,
   },

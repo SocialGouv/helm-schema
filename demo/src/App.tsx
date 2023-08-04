@@ -1,5 +1,5 @@
 import { useState } from "react";
-import GitHubForkRibbon from "react-github-fork-ribbon";
+import { GithubForkBanner } from "react-github-fork-banner";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 
 import "./App.css";
@@ -35,13 +35,7 @@ function App() {
   };
   return (
     <>
-      <GitHubForkRibbon
-        href="https://github.com/socialgouv/helm-schema"
-        target="_blank"
-        position="right"
-      >
-        Fork me on GitHub
-      </GitHubForkRibbon>
+      <GithubForkBanner customHref="https://github.com/socialgouv/helm-schema"></GithubForkBanner>
       <h1>helm-schema demo</h1>
       <p>
         Annotate your HELM values.yaml files with{" "}
@@ -52,7 +46,14 @@ function App() {
         >
           JSDoc comments
         </a>{" "}
-        and extract a values.schema.json
+        and extract a values.schema.json -{" "}
+        <a
+          href="https://github.com/socialgouv/helm-schema"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          cf Documentation.
+        </a>
       </p>
       <div style={{ display: "flex", width: "100%" }}>
         <div
