@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/SocialGouv/helm-schema/compare/v1.0.3...v1.0.4) (2023-08-04)
+
+
+### Bug Fixes
+
+* editor ([5dbe4b4](https://github.com/SocialGouv/helm-schema/commit/5dbe4b4778fd33262b3186c6133c13b3df271e5f))
+
 ## [1.0.3](https://github.com/SocialGouv/helm-schema/compare/v1.0.2...v1.0.3) (2023-08-04)
 
 
