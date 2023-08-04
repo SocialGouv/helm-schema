@@ -161,7 +161,7 @@ exports[`toJsonSchema: YAML with comments 1`] = `
       "properties": {
         "country": {
           "default": "FR",
-          "description": "Your country",
+          "title": "Your country",
           "type": "string",
         },
       },
@@ -170,7 +170,7 @@ exports[`toJsonSchema: YAML with comments 1`] = `
     },
     "name": {
       "default": "Jul",
-      "description": "Your name",
+      "title": "Your name",
       "type": "string",
     },
   },
@@ -188,27 +188,27 @@ exports[`toJsonSchema: YAML with nestedcomments 1`] = `
     "family": {
       "properties": {
         "mother": {
-          "description": "The mother",
           "properties": {
             "mother": {
-              "description": "The mother's mother",
               "properties": {
                 "name": {
-                  "description": "The mother mother's name",
+                  "title": "The mother mother's name",
                   "type": "string",
                 },
               },
               "required": [],
+              "title": "The mother's mother",
               "type": "object",
             },
             "name": {
-              "description": "The mother's name",
+              "title": "The mother's name",
               "type": "string",
             },
           },
           "required": [
             "name",
           ],
+          "title": "The mother",
           "type": "object",
         },
       },
@@ -228,14 +228,14 @@ exports[`toJsonSchema: YAML with sections 1`] = `
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "properties": {
     "family": {
-      "description": "family blablab",
       "properties": {
         "mother": {
-          "description": "The mother",
+          "title": "The mother",
           "type": "object",
         },
       },
       "required": [],
+      "title": "family blablab",
       "type": "object",
     },
   },
@@ -279,7 +279,7 @@ exports[`toJsonSchema: add root properties 1`] = `
   "properties": {
     "some": {
       "default": "thing",
-      "description": "Some optional string",
+      "title": "Some optional string",
       "type": "string",
     },
   },
@@ -295,7 +295,7 @@ exports[`toJsonSchema: single-line 1`] = `
   "properties": {
     "number": {
       "default": "42",
-      "description": "The magic number",
+      "title": "The magic number",
       "type": "number",
     },
   },
