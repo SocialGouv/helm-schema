@@ -44,3 +44,19 @@ jobs:
         run: |
           ./bin/index.js -f .github/e2e/values1.yaml > values1.json
           diff values1.json .github/e2e/values1.schema.json
+
+      - name: Semantic Release
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/exec
+            @semantic-release/git
+        env:
+          GIT_AUTHOR_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          GIT_AUTHOR_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.SOCIALGROOVYBOT_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ secrets.SOCIALGROOVYBOT_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.SOCIALGROOVYBOT_NPM_TOKEN }}

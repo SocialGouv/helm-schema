@@ -10,6 +10,7 @@ import {
   BlockScalar,
   FlowScalar,
   SourceToken,
+  //@ts-ignore
 } from "yaml/dist/parse/cst";
 import { JSONSchema4, JSONSchema4TypeName } from "json-schema";
 
@@ -292,6 +293,7 @@ export const extractValues = (yaml: string) => {
 };
 
 // todo
+// @ts-ignore
 const detectType = (some: any) => "string" as JSONSchema4TypeName;
 
 const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {

@@ -1,0 +1,35 @@
+name: Publish demo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    name: Website
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Yarn install
+        run: |
+          cd demo
+          yarn --immutable
+
+      - name: Yarn build
+        run: |
+          yarn build
+
+      # deploy build to gh-pages
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: demo/dist
