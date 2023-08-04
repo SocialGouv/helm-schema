@@ -1,0 +1,151 @@
+{
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required": [
+    "replicaCount"
+  ],
+  "properties": {
+    "replicaCount": {
+      "type": "number",
+      "description": "number of replicas in the pgweb deployment",
+      "default": "1"
+    },
+    "enabled": {
+      "type": "string"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "repositoryName": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string"
+    },
+    "targetPort": {
+      "type": "string",
+      "default": "8081"
+    },
+    "servicePort": {
+      "type": "string",
+      "default": "8081"
+    },
+    "certSecretName": {
+      "type": "string"
+    },
+    "env": {
+      "type": "string"
+    },
+    "envFrom": {
+      "type": "string"
+    },
+    "ingress": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "enabled": {
+          "type": "string",
+          "default": "false"
+        },
+        "annotations": {
+          "type": "string"
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "default": "sosedoff/pgweb"
+        },
+        "pullPolicy": {
+          "type": "string",
+          "default": "IfNotPresent"
+        },
+        "tag": {
+          "type": "string",
+          "default": "\"0.14.1\""
+        }
+      }
+    },
+    "imagePullSecrets": {
+      "type": "string"
+    },
+    "nameOverride": {
+      "type": "string",
+      "default": "\"\""
+    },
+    "fullnameOverride": {
+      "type": "string",
+      "default": "\"\""
+    },
+    "serviceAccount": {
+      "type": "object",
+      "required": [
+        "create"
+      ],
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Specifies whether a service account should be created",
+          "default": "false"
+        },
+        "annotations": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "default": "\"\""
+        }
+      }
+    },
+    "podAnnotations": {
+      "type": "string"
+    },
+    "podSecurityContext": {
+      "type": "string"
+    },
+    "securityContext": {
+      "type": "string"
+    },
+    "resources": {
+      "type": "string"
+    },
+    "autoscaling": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "enabled": {
+          "type": "string",
+          "default": "false"
+        },
+        "minReplicas": {
+          "type": "string",
+          "default": "1"
+        },
+        "maxReplicas": {
+          "type": "string",
+          "default": "100"
+        },
+        "targetCPUUtilizationPercentage": {
+          "type": "string",
+          "default": "80"
+        }
+      }
+    },
+    "nodeSelector": {
+      "type": "string"
+    },
+    "tolerations": {
+      "type": "string"
+    },
+    "affinity": {
+      "type": "string"
+    },
+    "extraArgs": {
+      "type": "string"
+    }
+  }
+}

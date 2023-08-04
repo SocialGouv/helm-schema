@@ -19,7 +19,7 @@
   },
   "scripts": {
     "dev": "tsc --watch --outDir build",
-    "package": "ncc build ./src/index.ts",
+    "build": "ncc build ./src/index.ts",
     "test": "jest",
     "lint": "eslint src/**/*.ts"
   },

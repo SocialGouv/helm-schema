@@ -1,0 +1,46 @@
+name: ✅ Tests 🔲
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!v*"
+    tags-ignore:
+      - "**"
+
+concurrency:
+  cancel-in-progress: true
+  group: tests-lint-${{ github.ref_name }}
+
+jobs:
+  tests:
+    name: Lint & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Yarn install
+        run: |
+          yarn --immutable
+
+      - name: Yarn build
+        run: |
+          yarn build
+
+      - name: Run lint
+        run: yarn lint
+
+      - name: Run unit test
+        run: yarn test
+
+      - name: Run e2e test
+        shell: bash
+        run: |
+          ./bin/index.js -f .github/e2e/values1.yaml > values1.json
+          diff values1.json values1.schema.json
