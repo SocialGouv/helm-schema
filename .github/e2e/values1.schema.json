@@ -75,11 +75,11 @@
     },
     "nameOverride": {
       "type": "string",
-      "default": "\"\""
+      "default": ""
     },
     "fullnameOverride": {
       "type": "string",
-      "default": "\"\""
+      "default": ""
     },
     "serviceAccount": {
       "type": "object",
@@ -97,7 +97,7 @@
         },
         "name": {
           "type": "string",
-          "default": "\"\""
+          "default": ""
         }
       }
     },

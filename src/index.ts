@@ -303,7 +303,7 @@ const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
     schema.description = node.comment?.description;
   }
   if (node.value) {
-    schema.default = node.value;
+    schema.default = node.value.replace(/^\"\"$/, "");
   }
 
   if (node.children?.length) {
