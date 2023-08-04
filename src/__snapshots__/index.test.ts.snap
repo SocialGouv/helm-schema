@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`extractValues: YAML with comments 1`] = `
+[
+  {
+    "comment": {
+      "description": "Your name",
+      "key": "name",
+      "required": true,
+      "type": "string",
+    },
+    "key": "name",
+    "value": "Jul",
+  },
+  {
+    "key": "age",
+    "value": "42",
+  },
+  {
+    "children": [
+      {
+        "comment": {
+          "description": "Your country",
+          "key": "country",
+          "required": false,
+          "type": "string",
+        },
+        "key": "country",
+        "value": "FR",
+      },
+    ],
+    "key": "location",
+    "type": "object",
+  },
+]
+`;
+
+exports[`extractValues: YAML with nestedcomments 1`] = `
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "comment": {
+              "description": "The mother's name",
+              "key": "name",
+              "required": true,
+              "type": "string",
+            },
+            "key": "name",
+          },
+          {
+            "children": [
+              {
+                "comment": {
+                  "description": "The mother mother's name",
+                  "key": "name",
+                  "required": false,
+                  "type": "string",
+                },
+                "key": "name",
+              },
+            ],
+            "comment": {
+              "description": "The mother's mother",
+              "key": "mother",
+              "required": false,
+              "type": "object",
+            },
+            "key": "mother",
+            "type": "object",
+          },
+        ],
+        "comment": {
+          "description": "The mother",
+          "key": "mother",
+          "required": true,
+          "type": "object",
+        },
+        "key": "mother",
+        "type": "object",
+      },
+    ],
+    "key": "family",
+    "type": "object",
+  },
+]
+`;
+
+exports[`extractValues: YAML with sections 1`] = `
+[
+  {
+    "children": [
+      {
+        "comment": {
+          "description": "The mother",
+          "key": "mother",
+          "required": false,
+          "type": "object",
+        },
+        "key": "mother",
+      },
+    ],
+    "comment": {
+      "description": "family blablab",
+    },
+    "key": "family",
+    "type": "object",
+  },
+]
+`;
+
+exports[`extractValues: YAML without comment 1`] = `
+[
+  {
+    "key": "name",
+    "value": "Jul",
+  },
+  {
+    "key": "age",
+    "value": "42",
+  },
+  {
+    "children": [
+      {
+        "key": "country",
+        "value": "FR",
+      },
+    ],
+    "key": "location",
+    "type": "object",
+  },
+]
+`;
+
+exports[`extractValues: single-line 1`] = `
+[
+  {
+    "comment": {
+      "description": "The magic number",
+      "key": "number",
+      "required": true,
+      "type": "number",
+    },
+    "key": "number",
+    "value": "42",
+  },
+]
+`;
+
+exports[`toJsonSchema: YAML with comments 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "age": {
+      "default": "42",
+      "type": "string",
+    },
+    "location": {
+      "properties": {
+        "country": {
+          "default": "FR",
+          "description": "Your country",
+          "type": "string",
+        },
+      },
+      "required": [],
+      "type": "object",
+    },
+    "name": {
+      "default": "Jul",
+      "description": "Your name",
+      "type": "string",
+    },
+  },
+  "required": [
+    "name",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: YAML with nestedcomments 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "family": {
+      "properties": {
+        "mother": {
+          "description": "The mother",
+          "properties": {
+            "mother": {
+              "description": "The mother's mother",
+              "properties": {
+                "name": {
+                  "description": "The mother mother's name",
+                  "type": "string",
+                },
+              },
+              "required": [],
+              "type": "object",
+            },
+            "name": {
+              "description": "The mother's name",
+              "type": "string",
+            },
+          },
+          "required": [
+            "name",
+          ],
+          "type": "object",
+        },
+      },
+      "required": [
+        "mother",
+      ],
+      "type": "object",
+    },
+  },
+  "required": [],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: YAML with sections 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "family": {
+      "description": "family blablab",
+      "properties": {
+        "mother": {
+          "description": "The mother",
+          "type": "object",
+        },
+      },
+      "required": [],
+      "type": "object",
+    },
+  },
+  "required": [],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: YAML without comment 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "age": {
+      "default": "42",
+      "type": "string",
+    },
+    "location": {
+      "properties": {
+        "country": {
+          "default": "FR",
+          "type": "string",
+        },
+      },
+      "required": [],
+      "type": "object",
+    },
+    "name": {
+      "default": "Jul",
+      "type": "string",
+    },
+  },
+  "required": [],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: add root properties 1`] = `
+{
+  "$id": "some-id",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "some": {
+      "default": "thing",
+      "description": "Some optional string",
+      "type": "string",
+    },
+  },
+  "required": [],
+  "title": "schema title",
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: single-line 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "number": {
+      "default": "42",
+      "description": "The magic number",
+      "type": "number",
+    },
+  },
+  "required": [
+    "number",
+  ],
+  "type": "object",
+}
+`;

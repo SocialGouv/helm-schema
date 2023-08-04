@@ -1,13 +1,13 @@
 # helm-values
 
-json-schema and README generator for your HELM charts
+json-schema generator for your HELM charts
 
 ## Usage
 
 To generate `README.md` and `values.schema.json` from your `values.yaml` :
 
 ```
-npx helm-values
+npx @socialgouv/helm-schema -f values.yaml
 ```
 
 ### Options

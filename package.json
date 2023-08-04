@@ -1,18 +1,25 @@
 {
-  "name": "helm-schema",
+  "name": "@socialgouv/helm-schema",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "Apache-2.0",
   "files": [
     "dist",
+    "bin",
     "package.json",
     "yarn.lock",
     "README.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": "./bin/index.js",
+  "engines": {
+    "node": ">=16.17.0"
+  },
   "scripts": {
-    "watch": "tsc --watch --outDir dist",
-    "build": "tsc --outDir dist",
-    "package": "ncc build",
+    "dev": "tsc --watch --outDir build",
+    "package": "ncc build ./src/index.ts",
     "test": "jest",
     "lint": "eslint src/**/*.ts"
   },
@@ -21,6 +28,7 @@
     "yaml": "^2.3.1"
   },
   "devDependencies": {
+    "@types/json-schema": "^7.0.12",
     "@types/node": "^20.4.6",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",

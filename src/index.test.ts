@@ -1,6 +1,6 @@
-import { expect, jest, test } from "@jest/globals";
+import { expect, test } from "@jest/globals";
 
-import { extract } from "./index";
+import { extractValues, toJsonSchema } from "./index";
 
 const tests = [
   {
@@ -49,6 +49,13 @@ family:
   mother:
 `,
   },
+  {
+    title: "single-line",
+    yaml: `
+# @param {number} number The magic number
+number: 42
+`,
+  },
   //   {
   //     title: "YAML with multiline comment",
   //     yaml: `
@@ -63,7 +70,27 @@ family:
 ];
 
 tests.forEach((t) => {
-  test(t.title, () => {
-    expect(extract(t.yaml)).toMatchSnapshot();
+  test(`extractValues: ${t.title}`, () => {
+    expect(extractValues(t.yaml)).toMatchSnapshot();
   });
+});
+
+tests.forEach((t) => {
+  test(`toJsonSchema: ${t.title}`, () => {
+    expect(toJsonSchema(t.yaml)).toMatchSnapshot();
+  });
+});
+
+test("toJsonSchema: add root properties", () => {
+  expect(
+    toJsonSchema(
+      `
+    # -- @param  {string} [some] Some optional string
+    some: thing`,
+      {
+        $id: "some-id",
+        title: "schema title",
+      }
+    )
+  ).toMatchSnapshot();
 });
