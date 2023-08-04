@@ -1,22 +1,37 @@
-# helm-values
+# @socialgouv/helm-schema
 
-json-schema generator for your HELM charts
+[JSON Schema](https://json-schema.org) generator for your [HELM charts](https://helm.sh).
+
+Demo : https://socialgouv.github.io/helm-schema
 
 ## Usage
 
-To generate `README.md` and `values.schema.json` from your `values.yaml` :
+To generate a JSON schema from your `values.yaml` :
 
-```
+```sh
 npx @socialgouv/helm-schema -f values.yaml
 ```
 
-### Options
+Or via TS :
 
+```js
+import { toJsonSchema } from "@socialgouv/helm-schema";
+
+import yaml from "./values.yaml";
+
+const schema = toJsonSchema(yaml);
 ```
 
+## Dev
+
+update snapshots :
+
+```sh
+yarn test -u
+./bin/index.js -f .github/e2e/values1.yaml > .github/e2e/values1.schema.json
 ```
 
 ## Todo
 
-- TypeScript
 - multiline comments
+- handle arrays
