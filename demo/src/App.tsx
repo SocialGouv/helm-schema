@@ -3,7 +3,7 @@ import GitHubForkRibbon from "react-github-fork-ribbon";
 
 import "./App.css";
 
-import { toJsonSchema } from "../../src";
+import { toJsonSchema } from "@socialgouv/helm-schema";
 
 const yaml = `
 # @param {string} name Your first name

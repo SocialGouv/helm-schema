@@ -1,4 +1,4 @@
-# @socialgouv/helm-schema
+# @socialgouv/helm-schema ![npm (scoped)](https://img.shields.io/npm/v/%40socialgouv/helm-schema)
 
 [JSON Schema](https://json-schema.org) generator for your [HELM charts](https://helm.sh).
 
