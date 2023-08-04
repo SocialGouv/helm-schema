@@ -1,5 +1,6 @@
 import { useState } from "react";
 import GitHubForkRibbon from "react-github-fork-ribbon";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 import "./App.css";
 
@@ -18,15 +19,19 @@ address:
   street:
   # @param {number} [number] Your street number
   number:
+
+# @param {number} age Your street number
+age: 42
 `.trim();
 
 function App() {
   const [schema, setSchema] = useState(
     JSON.stringify(toJsonSchema(yaml), null, 2)
   );
-  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    const yaml = e.target.value;
-    setSchema(JSON.stringify(toJsonSchema(yaml), null, 2));
+
+  const onYamlChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    const content = e.target.value;
+    setSchema(JSON.stringify(toJsonSchema(content), null, 2));
   };
   return (
     <>
@@ -50,19 +55,38 @@ function App() {
         and extract a values.schema.json
       </p>
       <div style={{ display: "flex", width: "100%" }}>
-        <div style={{ flex: "1 0 auto", textAlign: "center", height: "80vh" }}>
-          <textarea
-            onChange={onChange}
-            style={{ width: "100%", height: "100%" }}
-            defaultValue={yaml}
-          ></textarea>
+        <div
+          style={{
+            flex: "1 0 auto",
+            textAlign: "left",
+            width: "50%",
+            margin: 5,
+          }}
+        >
+          <div style={{ textAlign: "center" }}>values.yaml</div>
+          <CodeEditor
+            data-color-mode="light"
+            language="yaml"
+            value={yaml}
+            onChange={onYamlChange}
+            style={{ height: 800 }}
+          />
         </div>
-        <div style={{ flex: "1 0 auto", textAlign: "center", height: "80vh" }}>
-          <textarea
-            style={{ width: "100%", height: "100%" }}
+        <div
+          style={{
+            flex: "1 0 auto",
+            textAlign: "left",
+            width: "50%",
+            margin: 5,
+          }}
+        >
+          <div style={{ textAlign: "center" }}>values.schema.json</div>
+          <CodeEditor
+            data-color-mode="light"
+            language="json"
             value={schema}
-            readOnly
-          ></textarea>
+            style={{ height: 800 }}
+          />
         </div>
       </div>
     </>
