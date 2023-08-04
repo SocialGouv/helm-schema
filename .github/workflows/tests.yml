@@ -39,8 +39,8 @@ jobs:
       - name: Run unit test
         run: yarn test
 
-      - name: Run e2e test
+      - name: Run e2e test values1.yaml
         shell: bash
         run: |
           ./bin/index.js -f .github/e2e/values1.yaml > values1.json
-          diff values1.json values1.schema.json
+          diff values1.json .github/e2e/values1.schema.json
