@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/SocialGouv/helm-schema/compare/v1.0.2...v1.0.3) (2023-08-04)
+
+
+### Bug Fixes
+
+* test ([84b2d6f](https://github.com/SocialGouv/helm-schema/commit/84b2d6f038eb725b1adb9f2b0ecb24e01576e201))
+* use schema.title ([ff454e4](https://github.com/SocialGouv/helm-schema/commit/ff454e43205aa184aaeb5b12913f7b9864ca07e5))
+
 ## [1.0.2](https://github.com/SocialGouv/helm-schema/compare/v1.0.1...v1.0.2) (2023-08-04)
 
 
