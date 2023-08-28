@@ -25,42 +25,32 @@ family:
       name:
 `;
 
-const parsed = new Parser().parse(yaml.trim());
+// const spaceBeforeDocument =
+//   tokens
+//     .slice(documentIndex - 2, documentIndex)
+//     .filter((t) => t.type === "newline").length > 1;
 
-const tokens = Array.from(parsed);
+// const comments = {
+//   headComments: tokens
+//     .slice(0, documentIndex)
+//     .filter((t) => t.type === "comment"),
+//   spaceBeforeDocument,
+//   documentIndex,
+// };
 
-console.log(tokens.slice(tokens.length - 2));
-
-console.log("---");
-
-const documentIndex = tokens.findIndex((t) => t.type === "document");
-
-const spaceBeforeDocument =
-  tokens
-    .slice(documentIndex - 2, documentIndex)
-    .filter((t) => t.type === "newline").length > 1;
-
-const comments = {
-  headComments: tokens
-    .slice(0, documentIndex)
-    .filter((t) => t.type === "comment"),
-  spaceBeforeDocument,
-  documentIndex,
-};
-
-const flattenDocument = (blockMap: BlockMap | BlockSequence) => {
+export const flattenBlock = (blockMap: BlockMap | BlockSequence) => {
   const nodes: (SourceToken | Token)[] = [];
   blockMap.items.forEach((item) => {
     if (item.key) nodes.push(item.key);
-    if (item.start.length) {
+    if (item.start && item.start.length) {
       nodes.push(...item.start);
     }
-    if (item.sep.length) {
+    if (item.sep && item.sep.length) {
       nodes.push(...item.sep);
     }
     if (item.value) {
       if (item.value.type === "block-map" || item.value.type === "block-seq") {
-        nodes.push(...flattenDocument(item.value));
+        nodes.push(...flattenBlock(item.value));
       } else {
         if (item.value.type === "scalar" && item.value.end) {
           const { end, ...scalar } = item.value;
@@ -79,13 +69,37 @@ const flattenDocument = (blockMap: BlockMap | BlockSequence) => {
   return nodes;
 };
 
-const document = tokens[documentIndex] as Document;
-//const blockMap = document.value as BlockMap;
+export const flattenYaml = (yaml: string) => {
+  const parsed = new Parser().parse(yaml.trim());
 
-const nodes = [
-  ...tokens.slice(0, documentIndex),
-  ...flattenDocument(document.value as BlockMap),
-];
+  const tokens = Array.from(parsed);
+
+  const documentIndex = tokens.findIndex((t) => t.type === "document");
+
+  const document = tokens[documentIndex] as Document;
+
+  const nodes = [
+    ...tokens.slice(0, documentIndex),
+    ...flattenBlock(document.value as BlockMap),
+  ];
+  return nodes;
+};
+
+// let comments: SourceToken[] = [];
+// let lineCount = 0;
+// const scalars: any[] = [];
+// nodes.forEach((node) => {
+//   if (node.type === "comment") {
+//     comments.push(node);
+//   }
+//   if (node.type === "scalar") {
+//     scalars.push({
+//       ...node,
+//       comments,
+//     });
+//     comments = [];
+//   }
+// });
 
 // blockMap.items.forEach((item) => {
 //   nodes.push(item.key);
@@ -102,6 +116,7 @@ const nodes = [
 //   nodes.push(item.value);
 // });
 
-console.log(JSON.stringify(nodes, null, 2));
+//#console.log(JSON.stringify(nodes, null, 2));
+//console.log(JSON.stringify(scalars, null, 2));
 
 //console.log(comments);
