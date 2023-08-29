@@ -8,7 +8,9 @@
   ],
   "properties": {
     "replicaCount": {
-      "type": "number",
+      "type": [
+        "number"
+      ],
       "title": "- number of replicas in the pgweb deployment",
       "default": "1"
     },
@@ -92,16 +94,22 @@
       ],
       "properties": {
         "create": {
-          "type": "boolean",
+          "type": [
+            "boolean"
+          ],
           "title": "-- Specifies whether a service account should be created",
           "default": "false"
         },
         "annotations": {
-          "type": "any",
+          "type": [
+            "any"
+          ],
           "description": "Annotations to add to the service account"
         },
         "name": {
-          "type": "any",
+          "type": [
+            "any"
+          ],
           "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template",
           "default": ""
         }
@@ -117,7 +125,9 @@
       "type": "string"
     },
     "resources": {
-      "type": "any",
+      "type": [
+        "any"
+      ],
       "description": "custom resources"
     },
     "autoscaling": {
@@ -128,7 +138,9 @@
       ],
       "properties": {
         "enabled": {
-          "type": "any",
+          "type": [
+            "any"
+          ],
           "description": "Horizontal Pod autoscaler",
           "default": "false"
         },

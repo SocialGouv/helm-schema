@@ -13,11 +13,15 @@
       ],
       "properties": {
         "host": {
-          "type": "string",
+          "type": [
+            "string"
+          ],
           "title": "SMTP hostname"
         },
         "port": {
-          "type": "number",
+          "type": [
+            "number"
+          ],
           "title": "SMTP hostname",
           "default": "587"
         }
