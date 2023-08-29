@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/SocialGouv/helm-schema/compare/v1.2.0...v1.2.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* allow multiple types ([4028c6b](https://github.com/SocialGouv/helm-schema/commit/4028c6b08dd5a27e03daeb394709973c6397f67c))
+
 # [1.2.0](https://github.com/SocialGouv/helm-schema/compare/v1.1.1...v1.2.0) (2023-08-29)
 
 
