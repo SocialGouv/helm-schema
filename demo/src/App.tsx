@@ -10,6 +10,7 @@ const yaml = `
 # @param {string} name Your first name
 firstname: Julien
 
+# The last name generally comes from your parents
 # @param {string} name Your last name
 lastname: Boubou
 
