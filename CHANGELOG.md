@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/SocialGouv/helm-schema/compare/v1.1.1...v1.2.0) (2023-08-29)
+
+
+### Features
+
+* add external refs parsing ([#7](https://github.com/SocialGouv/helm-schema/issues/7)) ([67501e9](https://github.com/SocialGouv/helm-schema/commit/67501e95276b192ee2f8044bbf482637c5d74715))
+
 ## [1.1.1](https://github.com/SocialGouv/helm-schema/compare/v1.1.0...v1.1.1) (2023-08-29)
 
 
