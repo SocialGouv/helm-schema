@@ -10,20 +10,16 @@ import {
   BlockScalar,
   FlowScalar,
   SourceToken,
-  //@ts-ignore
 } from "yaml/dist/parse/cst";
 import { JSONSchema4, JSONSchema4TypeName } from "json-schema";
 
-interface SectionComment {
-  description: string;
-}
+import { flattenYaml } from "./flatten";
 
 interface ParsedComment {
-  key: string;
+  title: string;
   description: string;
   type: JSONSchema4TypeName;
   required: boolean;
-  offset: number;
 }
 
 interface YamlScalar {
@@ -36,12 +32,6 @@ interface YamlScalar {
   children?: YamlScalar[];
   parent?: Token;
   comment?: ParsedComment;
-}
-
-function hasSource(
-  object: any
-): object is SourceToken | FlowScalar | BlockScalar {
-  return "source" in object;
 }
 
 function hasSep(
@@ -73,85 +63,40 @@ function hasItems(
   return "items" in object;
 }
 
-function isComment(object: any): object is Comment {
-  return "type" in object && object.type === "comment";
-}
-
-function hasChildren(object: any) {
-  return "children" in object;
-}
-
-function hasOffset(object: any): object is ParsedComment {
-  return "offset" in object;
-}
-
-const cleanDescriptionText = (text: string) =>
-  text
-    .replace(/# @section (.*)/, "$1")
-    .replace(/\s*#+\s*(?:-)*\s*(.*)/, "$1")
-    .replace(/\s*-+\s*(.*)/, "$1")
-    .trim();
-
 /**
  * Parse node comment with JSDoc like annotations
  */
-const parseCommentLine = (
-  node: Token
-): SectionComment | ParsedComment | undefined => {
-  if (hasSource(node)) {
-    if (node.source.match(/# @section/)) {
-      return {
-        description: cleanDescriptionText(node.source),
-        offset: node.offset,
-      };
-    }
-    const parsedLine = commentParser(
-      node.source.replace(/^\s*#+\s*(?:-)*\s*(.*)/, "/** $1 */") // replaces starting with # or # --
-    );
-    if (parsedLine[0].tags.length) {
-      const tag = parsedLine[0].tags[0];
-      const type = tag.type && tag.type.replace(/^\{(.*)\}$/g, "$1");
-      const name = parsedLine[0]?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
-      return {
-        key: name.replace(/[\[\]]/g, ""),
-        description: cleanDescriptionText(tag.description),
-        type: type.replace(/(.*)\?$/, "$1") as JSONSchema4TypeName, // remove question mark
-        required: name ? name.indexOf("[") === -1 : true,
-        offset: node.offset,
-      };
-    }
+const parseCommentLine = (source: string): ParsedComment | undefined => {
+  const parsedLines = commentParser(
+    source
+      .split("\n")
+      .map((row) => row.trim().replace(/^\s*#+\s*(?:-)*\s*(.*)/gm, "/** $1 */"))
+      .join("\n") // replaces starting with # or # --
+  );
+  const lastLine = parsedLines[parsedLines.length - 1];
+  const description = parsedLines
+    .map((line) => line.description)
+    .filter(Boolean)
+    .join("\n");
+  if (lastLine && lastLine.tags && lastLine.tags.length) {
+    const tag = lastLine.tags[0];
+    const type = tag.type && tag.type.replace(/^\{(.*)\}$/g, "$1");
+    const name = lastLine?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
     return {
-      description: cleanDescriptionText(node.source),
-      required: true,
-      offset: node.offset,
+      title: tag.description,
+      description,
+      type: type.replace(/(.*)\?$/, "$1") as JSONSchema4TypeName, // remove question mark
+      required: name ? name.indexOf("[") === -1 : true,
     };
   }
-};
-
-/**
- * Extract and parse all comments from a CST node
- */
-const getCommentTokens = (root: Token[], child?: Token | CollectionItem) => {
-  const comments = [];
-  const node = child || root;
-  if (isComment(node)) {
-    comments.push(node);
-  }
-  if (hasSep(node)) {
-    node.sep
-      .filter((n) => n.type === "comment")
-      .forEach((n) => {
-        comments.push(...getCommentTokens(root, n));
-      });
-  }
-  if (hasValue(node) && hasItems(node.value)) {
-    if (node.value && node.value.items && node.value.items.length) {
-      node.value.items.forEach((n) => {
-        comments.push(...getCommentTokens(root, n));
-      });
-    }
-  }
-  return comments;
+  const title = lastLine?.source[0]?.tokens?.name;
+  if (!title && !description) return;
+  return {
+    title,
+    description,
+    required: true,
+    type: "any",
+  };
 };
 
 const getValues = (
@@ -196,66 +141,46 @@ const getValues = (
   return values;
 };
 
-const getNodesOffsets = (values: YamlScalar[]) => {
-  const offsets: number[] = [];
-  values.forEach((value) => {
-    offsets.push(value.offset);
-    if (hasChildren(value)) {
-      offsets.push(...getNodesOffsets(value.children));
+const getComment = (nodes: (Token | SourceToken)[], offset: number) => {
+  const remaining = nodes.filter((node) => node.offset < offset);
+  let comments: SourceToken[] = [];
+  let lastType: string;
+  let finished = false;
+  remaining.reverse().forEach((node) => {
+    if (finished) {
+      return;
     }
+    if (node.type === "comment") {
+      comments.push(node);
+    } else if (node.type === "space" || node.type === "map-value-ind") {
+    } else if (node.type === "newline") {
+      if (lastType === "newline") {
+        finished = true;
+      }
+    } else {
+      finished = true;
+    }
+    lastType = node.type;
   });
-  return offsets;
-};
-
-const getSortedComments = (tokens: Token[]) =>
-  tokens
-    .flatMap((token) => getCommentTokens(tokens, token))
-    //.map((node) => hasSource(node))
-    .filter((node) => hasSource(node) && hasOffset(node))
-    //@ts-ignore
-    .map((node) => parseCommentLine(node))
-    //@ts-ignore
-    .sort((a, b) => a.offset - b.offset);
-
-const getComment = (
-  comments: ParsedComment[],
-  offsets: number[],
-  offset: number
-): ParsedComment => {
-  const reversedComments = [...comments].reverse();
-  const closestComment = reversedComments.find((c) => c.offset < offset);
-  const anotherItemBetween =
-    closestComment &&
-    offsets.find(
-      (offset2) => offset2 > closestComment.offset && offset2 < offset
-    );
-  if (!closestComment || anotherItemBetween) {
-    return;
-  }
-  //return closestComment;
-  return {
-    key: closestComment.key,
-    description: closestComment.description,
-    type: closestComment.type,
-    required: closestComment.required,
-    offset: undefined,
-  };
+  return comments.reverse();
 };
 
 const addComments = (
   values: YamlScalar[],
-  comments: ParsedComment[],
-  offsets: number[]
+  nodes: (Token | SourceToken)[]
 ): void => {
   values.forEach((value) => {
     if (value.offset) {
-      const comment = getComment(comments, offsets, value.offset);
+      const comment = getComment(nodes, value.offset);
+      const description = comment.map((n) => n.source).join("\n");
+      const parsed = parseCommentLine(description);
+      //console.log("parsed", parsed);
       if (comment) {
-        value.comment = comment;
+        value.comment = parsed;
       }
     }
     if (value.children) {
-      addComments(value.children, comments, offsets);
+      addComments(value.children, nodes);
     }
   });
 };
@@ -279,20 +204,17 @@ export const extractValues = (yaml: string) => {
 
   const tokens: Token[] = Array.from(parsed);
 
-  const comments = getSortedComments(tokens);
-
   const values = tokens.flatMap((token) => getValues(tokens, token));
 
-  const offsets = getNodesOffsets(values);
+  const flattenedNodes = flattenYaml(yaml);
 
   //@ts-ignore
-  addComments(values, comments, offsets);
+  addComments(values, flattenedNodes);
   cleanUp(values);
   const cleaned = cleanUndefined(values);
   return cleaned;
 };
 
-// todo
 // @ts-ignore
 const detectType = (some: any) => "string" as JSONSchema4TypeName;
 
@@ -301,8 +223,11 @@ const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
     type: node.comment?.type || detectType(node.value),
     ...rootProps,
   };
+  if (node.comment?.title) {
+    schema.title = node.comment?.title;
+  }
   if (node.comment?.description) {
-    schema.title = node.comment?.description;
+    schema.description = node.comment?.description;
   }
   if (node.value) {
     schema.default = node.value.replace(/^\"\"$/, "");
@@ -325,7 +250,7 @@ const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
 };
 
 export const toJsonSchema = (yaml: string, rootProps = {}): JSONSchema4 => {
-  const values = extractValues(yaml);
+  const values = extractValues(yaml.trim());
   const fullValues: YamlScalar = {
     key: "root",
     value: null,
