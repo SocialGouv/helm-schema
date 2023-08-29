@@ -16,7 +16,8 @@ import { flattenYaml } from "./flatten";
 interface ParsedComment {
   title: string;
   description: string;
-  type: JSONSchema4TypeName;
+  type?: JSONSchema4TypeName;
+  $ref?: string;
   required: boolean;
 }
 
@@ -78,14 +79,22 @@ const parseCommentLine = (source: string): ParsedComment | undefined => {
     .join("\n");
   if (lastLine && lastLine.tags && lastLine.tags.length) {
     const tag = lastLine.tags[0];
+
     const type = tag.type && tag.type.replace(/^\{(.*)\}$/g, "$1");
+    const isExternalref = !!type.match(/^https?:\/\//);
     const name = lastLine?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
-    return {
+
+    const comment: ParsedComment = {
       title: tag.description,
       description,
-      type: type.replace(/(.*)\?$/, "$1") as JSONSchema4TypeName, // remove question mark
       required: name ? name.indexOf("[") === -1 : true,
     };
+    if (isExternalref) {
+      comment.$ref = type;
+    } else {
+      comment.type = type.replace(/(.*)\?$/, "$1") as JSONSchema4TypeName; // remove question mark
+    }
+    return comment;
   }
   const title = lastLine?.source[0]?.tokens?.name;
   if (!title && !description) return;
@@ -221,8 +230,15 @@ const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
     type: node.comment?.type || detectType(node.value),
     ...rootProps,
   };
+  if (node.comment?.type) {
+    schema.type = node.comment?.type;
+  }
   if (node.comment?.title) {
     schema.title = node.comment?.title;
+  }
+  if (node.comment?.$ref) {
+    schema.$ref = node.comment?.$ref;
+    delete schema.type;
   }
   if (node.comment?.description) {
     schema.description = node.comment?.description;

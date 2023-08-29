@@ -41,6 +41,20 @@ exports[`extractValues: YAML with comments 1`] = `
 ]
 `;
 
+exports[`extractValues: YAML with external references 1`] = `
+[
+  {
+    "comment": {
+      "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext",
+      "description": "Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/",
+      "required": true,
+      "title": "",
+    },
+    "key": "securityContext",
+  },
+]
+`;
+
 exports[`extractValues: YAML with multiline comment 1`] = `
 [
   {
@@ -214,6 +228,22 @@ exports[`toJsonSchema: YAML with comments 1`] = `
   "required": [
     "name",
     "age",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: YAML with external references 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "securityContext": {
+      "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext",
+      "description": "Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/",
+    },
+  },
+  "required": [
+    "securityContext",
   ],
   "type": "object",
 }
