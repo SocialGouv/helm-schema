@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/SocialGouv/helm-schema/compare/v1.0.6...v1.1.0) (2023-08-29)
+
+
+### Features
+
+* multiline comments ([#3](https://github.com/SocialGouv/helm-schema/issues/3)) ([ead6c30](https://github.com/SocialGouv/helm-schema/commit/ead6c306c8677df10acf7bfdcefc09c46d0651b1))
+
 ## [1.0.6](https://github.com/SocialGouv/helm-schema/compare/v1.0.5...v1.0.6) (2023-08-06)
 
 
