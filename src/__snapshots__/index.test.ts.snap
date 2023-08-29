@@ -4,15 +4,21 @@ exports[`extractValues: YAML with comments 1`] = `
 [
   {
     "comment": {
-      "description": "Your name",
-      "key": "name",
+      "description": "",
       "required": true,
+      "title": "Your name",
       "type": "string",
     },
     "key": "name",
     "value": "Jul",
   },
   {
+    "comment": {
+      "description": "",
+      "required": true,
+      "title": "Your age",
+      "type": "number",
+    },
     "key": "age",
     "value": "42",
   },
@@ -20,9 +26,9 @@ exports[`extractValues: YAML with comments 1`] = `
     "children": [
       {
         "comment": {
-          "description": "Your country",
-          "key": "country",
+          "description": "",
           "required": false,
+          "title": "Your country",
           "type": "string",
         },
         "key": "country",
@@ -30,6 +36,33 @@ exports[`extractValues: YAML with comments 1`] = `
       },
     ],
     "key": "location",
+    "type": "object",
+  },
+]
+`;
+
+exports[`extractValues: YAML with multiline comment 1`] = `
+[
+  {
+    "children": [
+      {
+        "comment": {
+          "description": "the mother is important in your life",
+          "required": false,
+          "title": "The mother",
+          "type": "object",
+        },
+        "key": "mother",
+      },
+    ],
+    "comment": {
+      "description": "family blablab
+more info about that crazy family",
+      "required": true,
+      "title": "",
+      "type": "any",
+    },
+    "key": "family",
     "type": "object",
   },
 ]
@@ -43,9 +76,9 @@ exports[`extractValues: YAML with nestedcomments 1`] = `
         "children": [
           {
             "comment": {
-              "description": "The mother's name",
-              "key": "name",
+              "description": "",
               "required": true,
+              "title": "The mother's name",
               "type": "string",
             },
             "key": "name",
@@ -54,18 +87,18 @@ exports[`extractValues: YAML with nestedcomments 1`] = `
             "children": [
               {
                 "comment": {
-                  "description": "The mother mother's name",
-                  "key": "name",
+                  "description": "",
                   "required": false,
+                  "title": "The mother mother's name",
                   "type": "string",
                 },
                 "key": "name",
               },
             ],
             "comment": {
-              "description": "The mother's mother",
-              "key": "mother",
+              "description": "",
               "required": false,
+              "title": "The mother's mother",
               "type": "object",
             },
             "key": "mother",
@@ -73,9 +106,9 @@ exports[`extractValues: YAML with nestedcomments 1`] = `
           },
         ],
         "comment": {
-          "description": "The mother",
-          "key": "mother",
+          "description": "",
           "required": true,
+          "title": "The mother",
           "type": "object",
         },
         "key": "mother",
@@ -94,16 +127,19 @@ exports[`extractValues: YAML with sections 1`] = `
     "children": [
       {
         "comment": {
-          "description": "The mother",
-          "key": "mother",
+          "description": "",
           "required": false,
+          "title": "The mother",
           "type": "object",
         },
         "key": "mother",
       },
     ],
     "comment": {
-      "description": "family blablab",
+      "description": "",
+      "required": true,
+      "title": "blablab",
+      "type": "",
     },
     "key": "family",
     "type": "object",
@@ -138,9 +174,9 @@ exports[`extractValues: single-line 1`] = `
 [
   {
     "comment": {
-      "description": "The magic number",
-      "key": "number",
+      "description": "",
       "required": true,
+      "title": "The magic number",
       "type": "number",
     },
     "key": "number",
@@ -155,7 +191,8 @@ exports[`toJsonSchema: YAML with comments 1`] = `
   "properties": {
     "age": {
       "default": "42",
-      "type": "string",
+      "title": "Your age",
+      "type": "number",
     },
     "location": {
       "properties": {
@@ -176,6 +213,32 @@ exports[`toJsonSchema: YAML with comments 1`] = `
   },
   "required": [
     "name",
+    "age",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: YAML with multiline comment 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "family": {
+      "description": "family blablab
+more info about that crazy family",
+      "properties": {
+        "mother": {
+          "description": "the mother is important in your life",
+          "title": "The mother",
+          "type": "object",
+        },
+      },
+      "required": [],
+      "type": "object",
+    },
+  },
+  "required": [
+    "family",
   ],
   "type": "object",
 }
@@ -235,11 +298,13 @@ exports[`toJsonSchema: YAML with sections 1`] = `
         },
       },
       "required": [],
-      "title": "family blablab",
+      "title": "blablab",
       "type": "object",
     },
   },
-  "required": [],
+  "required": [
+    "family",
+  ],
   "type": "object",
 }
 `;

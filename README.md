@@ -33,5 +33,6 @@ yarn test -u
 
 ## Todo
 
-- multiline comments
+- ~~multiline comments~~
+- sections
 - handle arrays
