@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@socialgouv/helm-schema": "^1.1.0",
+    "@socialgouv/helm-schema": "^1.1.1",
     "@uiw/react-textarea-code-editor": "^2.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

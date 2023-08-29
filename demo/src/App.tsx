@@ -7,10 +7,10 @@ import "./App.css";
 import { toJsonSchema } from "@socialgouv/helm-schema";
 
 const yaml = `
+# Or your nick name if you prefer
 # @param {string} name Your first name
 firstname: Julien
 
-# The last name generally comes from your parents
 # @param {string} name Your last name
 lastname: Boubou
 
@@ -21,7 +21,7 @@ address:
   # @param {number} [number] Your street number
   number:
 
-# @param {number} age Your street number
+# @param {number} [age] Your age in years
 age: 42
 `.trim();
 
