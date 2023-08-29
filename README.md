@@ -6,6 +6,21 @@ Demo : https://socialgouv.github.io/helm-schema
 
 ## Usage
 
+Example `values.yaml`, following [JSDoc standards](https://devhints.io/jsdoc)
+
+```yaml
+# @param {object} smtp Your SMTP setup
+smtp:
+  # @param {string} host SMTP hostname
+  host:
+  # @param {number} [port] SMTP hostname
+  port: 587
+
+# Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+# @param {https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext} [securityContext]
+securityContext:
+```
+
 To generate a JSON schema from your `values.yaml` :
 
 ```sh
@@ -22,6 +37,40 @@ import yaml from "./values.yaml";
 const schema = toJsonSchema(yaml);
 ```
 
+You get such JSON schema in result :
+
+```json
+{
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required": ["smtp"],
+  "properties": {
+    "smtp": {
+      "type": "object",
+      "title": "Your SMTP setup",
+      "required": ["host"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "title": "SMTP hostname"
+        },
+        "port": {
+          "type": "number",
+          "title": "SMTP hostname",
+          "default": "587"
+        }
+      }
+    },
+    "securityContext": {
+      "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext",
+      "description": "Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+    }
+  }
+}
+```
+
+This schema can then be used with your favorite editor for HELM values validation.
+
 ## Dev
 
 update snapshots :
@@ -29,6 +78,7 @@ update snapshots :
 ```sh
 yarn test -u
 ./bin/index.js -f .github/e2e/values1.yaml > .github/e2e/values1.schema.json
+./bin/index.js -f .github/e2e/values2.yaml > .github/e2e/values2.schema.json
 ```
 
 ## Todo

@@ -67,6 +67,14 @@ family:
   mother:
   `,
   },
+  {
+    title: "YAML with external references",
+    yaml: `
+# Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+# @param {https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext} securityContext
+securityContext:
+  `,
+  },
 ];
 
 tests.forEach((t) => {

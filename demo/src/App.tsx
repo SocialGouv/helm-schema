@@ -7,22 +7,13 @@ import "./App.css";
 import { toJsonSchema } from "@socialgouv/helm-schema";
 
 const yaml = `
-# Or your nick name if you prefer
+# This is your main server name
 # @param {string} name Your first name
-firstname: Julien
+name: awesome-app
 
-# @param {string} name Your last name
-lastname: Boubou
-
-# @param {object} address Your address
-address:
-  # @param {string} [street] Your street name
-  street:
-  # @param {number} [number] Your street number
-  number:
-
-# @param {number} [age] Your age in years
-age: 42
+# Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+# @param {https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext} securityContext
+securityContext:
 `.trim();
 
 function App() {

@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "required": [
+    "smtp"
+  ],
+  "properties": {
+    "smtp": {
+      "type": "object",
+      "title": "Your SMTP setup",
+      "required": [
+        "host"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "title": "SMTP hostname"
+        },
+        "port": {
+          "type": "number",
+          "title": "SMTP hostname",
+          "default": "587"
+        }
+      }
+    },
+    "securityContext": {
+      "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext",
+      "description": "Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+    }
+  }
+}

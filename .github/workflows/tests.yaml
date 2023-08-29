@@ -44,6 +44,8 @@ jobs:
         run: |
           ./bin/index.js -f .github/e2e/values1.yaml > values1.json
           diff values1.json .github/e2e/values1.schema.json
+          ./bin/index.js -f .github/e2e/values2.yaml > values2.json
+          diff values2.json .github/e2e/values2.schema.json
 
       - name: Semantic Release
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
