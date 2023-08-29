@@ -40,7 +40,7 @@ family:
 
 export const flattenBlock = (blockMap: BlockMap | BlockSequence) => {
   const nodes: (SourceToken | Token)[] = [];
-  blockMap.items.forEach((item) => {
+  blockMap?.items?.forEach((item) => {
     if (item.key) nodes.push(item.key);
     if (item.start && item.start.length) {
       nodes.push(...item.start);
