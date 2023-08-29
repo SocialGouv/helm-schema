@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { parseArgs } = require("node:util");
-const { toJsonSchema } = require("../build");
+const { toJsonSchema } = require("../dist");
 const fs = require("fs");
 
 const args = process.argv;
