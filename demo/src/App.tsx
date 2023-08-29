@@ -7,12 +7,15 @@ import "./App.css";
 import { toJsonSchema } from "@socialgouv/helm-schema";
 
 const yaml = `
-# This is your main server name
-# @param {string} name Your first name
-name: awesome-app
+# @param {object} smtp Your SMTP setup
+smtp:
+  # @param {string} host SMTP hostname
+  host:
+  # @param {number} [port] SMTP hostname
+  port: 587
 
 # Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
-# @param {https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext} securityContext
+# @param {https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext} [securityContext]
 securityContext:
 `.trim();
 
@@ -32,7 +35,7 @@ function App() {
       <p>
         Annotate your HELM values.yaml files with{" "}
         <a
-          href="https://jsdoc.app/tags-param.html"
+          href="https://devhints.io/jsdoc"
           target="_blank"
           rel="noopener noreferrer"
         >

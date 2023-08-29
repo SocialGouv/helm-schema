@@ -474,10 +474,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@socialgouv/helm-schema@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@socialgouv/helm-schema/-/helm-schema-1.1.1.tgz#1f42a55619904f85b4f886dbf5659cae87b90799"
-  integrity sha512-dz3l3k1XQitjwevMug0xA9FdvzU2bM5BjQ49eyyz+k9Ky7tFdG0S9s+YAc6Uvc3xUYvTpkWnmcCCAvaM2U6/3g==
+"@socialgouv/helm-schema@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@socialgouv/helm-schema/-/helm-schema-1.2.0.tgz#eda636b2c69c19644d3bb7d9897c94654c4fa261"
+  integrity sha512-Yh/TL0ARwh1vRutFf4ELnviYM9esHaVWIxvHrcJUsKRXOLNdgF8owzuVnb9GKDgAlCAwcJLet2v+JvKZYRihCA==
   dependencies:
     comment-parser "^1.4.0"
     yaml "^2.3.2"
