@@ -11,7 +11,7 @@ age: 42
 
 location:
   country: FR
-`,
+  `,
   },
   {
     title: "YAML with comments",
@@ -24,7 +24,7 @@ age: 42
 location:
   # @param {string} [country] Your country
   country: FR
-`,
+  `,
   },
   {
     title: "YAML with nestedcomments",
@@ -47,26 +47,26 @@ family:
 family:
   # @param {object} [mother] The mother
   mother:
-`,
+  `,
   },
   {
     title: "single-line",
     yaml: `
 # @param {number} number The magic number
 number: 42
-`,
+  `,
   },
-  //   {
-  //     title: "YAML with multiline comment",
-  //     yaml: `
-  // # @section family blablab
-  // # more info about that crazy family
-  // family:
-  //   # @param {object} [mother] The mother
-  //   # the mother is important in your life
-  //   mother:
-  // `,
-  //   },
+  {
+    title: "YAML with multiline comment",
+    yaml: `
+# family blablab
+# more info about that crazy family
+family:
+  # the mother is important in your life
+  # @param {object} [mother] The mother
+  mother:
+  `,
+  },
 ];
 
 tests.forEach((t) => {
@@ -85,8 +85,8 @@ test("toJsonSchema: add root properties", () => {
   expect(
     toJsonSchema(
       `
-    # -- @param  {string} [some] Some optional string
-    some: thing`,
+# @param {string} [some] Some optional string
+some: thing`,
       {
         $id: "some-id",
         title: "schema title",

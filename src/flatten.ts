@@ -70,7 +70,7 @@ export const flattenBlock = (blockMap: BlockMap | BlockSequence) => {
 };
 
 export const flattenYaml = (yaml: string) => {
-  const parsed = new Parser().parse(yaml.trim());
+  const parsed = new Parser().parse(yaml);
 
   const tokens = Array.from(parsed);
 
