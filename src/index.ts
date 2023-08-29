@@ -16,14 +16,14 @@ import { flattenYaml } from "./flatten";
 interface ParsedComment {
   title: string;
   description: string;
-  type?: JSONSchema4TypeName;
+  type?: JSONSchema4TypeName[];
   $ref?: string;
   required: boolean;
 }
 
 interface YamlScalar {
   description?: string;
-  type?: JSONSchema4TypeName;
+  type?: JSONSchema4TypeName[];
   required?: boolean;
   offset: number;
   key: string;
@@ -92,7 +92,9 @@ const parseCommentLine = (source: string): ParsedComment | undefined => {
     if (isExternalref) {
       comment.$ref = type;
     } else {
-      comment.type = type.replace(/(.*)\?$/, "$1") as JSONSchema4TypeName; // remove question mark
+      comment.type = type
+        .replace(/(.*)\?$/, "$1")
+        .split(",") as JSONSchema4TypeName[]; // remove question mark
     }
     return comment;
   }
@@ -102,7 +104,7 @@ const parseCommentLine = (source: string): ParsedComment | undefined => {
     title,
     description,
     required: true,
-    type: "any",
+    type: ["any"],
   };
 };
 
@@ -130,7 +132,7 @@ const getValues = (
         n.parent = node;
         return getValues(root, n);
       });
-      scalar.type = "object";
+      scalar.type = ["object"];
     }
     values.push(scalar);
   }

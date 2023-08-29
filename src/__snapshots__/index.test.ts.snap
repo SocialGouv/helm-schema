@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`extractValues: JSDoc with multiple types 1`] = `
+[
+  {
+    "comment": {
+      "description": "",
+      "required": true,
+      "title": "",
+      "type": [
+        "string",
+        "null",
+      ],
+    },
+    "key": "securityContext",
+  },
+]
+`;
+
 exports[`extractValues: YAML with comments 1`] = `
 [
   {
@@ -7,7 +24,9 @@ exports[`extractValues: YAML with comments 1`] = `
       "description": "",
       "required": true,
       "title": "Your name",
-      "type": "string",
+      "type": [
+        "string",
+      ],
     },
     "key": "name",
     "value": "Jul",
@@ -17,7 +36,9 @@ exports[`extractValues: YAML with comments 1`] = `
       "description": "",
       "required": true,
       "title": "Your age",
-      "type": "number",
+      "type": [
+        "number",
+      ],
     },
     "key": "age",
     "value": "42",
@@ -29,14 +50,18 @@ exports[`extractValues: YAML with comments 1`] = `
           "description": "",
           "required": false,
           "title": "Your country",
-          "type": "string",
+          "type": [
+            "string",
+          ],
         },
         "key": "country",
         "value": "FR",
       },
     ],
     "key": "location",
-    "type": "object",
+    "type": [
+      "object",
+    ],
   },
 ]
 `;
@@ -64,7 +89,9 @@ exports[`extractValues: YAML with multiline comment 1`] = `
           "description": "the mother is important in your life",
           "required": false,
           "title": "The mother",
-          "type": "object",
+          "type": [
+            "object",
+          ],
         },
         "key": "mother",
       },
@@ -74,10 +101,14 @@ exports[`extractValues: YAML with multiline comment 1`] = `
 more info about that crazy family",
       "required": true,
       "title": "",
-      "type": "any",
+      "type": [
+        "any",
+      ],
     },
     "key": "family",
-    "type": "object",
+    "type": [
+      "object",
+    ],
   },
 ]
 `;
@@ -93,7 +124,9 @@ exports[`extractValues: YAML with nestedcomments 1`] = `
               "description": "",
               "required": true,
               "title": "The mother's name",
-              "type": "string",
+              "type": [
+                "string",
+              ],
             },
             "key": "name",
           },
@@ -104,7 +137,9 @@ exports[`extractValues: YAML with nestedcomments 1`] = `
                   "description": "",
                   "required": false,
                   "title": "The mother mother's name",
-                  "type": "string",
+                  "type": [
+                    "string",
+                  ],
                 },
                 "key": "name",
               },
@@ -113,24 +148,34 @@ exports[`extractValues: YAML with nestedcomments 1`] = `
               "description": "",
               "required": false,
               "title": "The mother's mother",
-              "type": "object",
+              "type": [
+                "object",
+              ],
             },
             "key": "mother",
-            "type": "object",
+            "type": [
+              "object",
+            ],
           },
         ],
         "comment": {
           "description": "",
           "required": true,
           "title": "The mother",
-          "type": "object",
+          "type": [
+            "object",
+          ],
         },
         "key": "mother",
-        "type": "object",
+        "type": [
+          "object",
+        ],
       },
     ],
     "key": "family",
-    "type": "object",
+    "type": [
+      "object",
+    ],
   },
 ]
 `;
@@ -144,7 +189,9 @@ exports[`extractValues: YAML with sections 1`] = `
           "description": "",
           "required": false,
           "title": "The mother",
-          "type": "object",
+          "type": [
+            "object",
+          ],
         },
         "key": "mother",
       },
@@ -153,10 +200,14 @@ exports[`extractValues: YAML with sections 1`] = `
       "description": "",
       "required": true,
       "title": "blablab",
-      "type": "",
+      "type": [
+        "",
+      ],
     },
     "key": "family",
-    "type": "object",
+    "type": [
+      "object",
+    ],
   },
 ]
 `;
@@ -179,7 +230,9 @@ exports[`extractValues: YAML without comment 1`] = `
       },
     ],
     "key": "location",
-    "type": "object",
+    "type": [
+      "object",
+    ],
   },
 ]
 `;
@@ -191,12 +244,32 @@ exports[`extractValues: single-line 1`] = `
       "description": "",
       "required": true,
       "title": "The magic number",
-      "type": "number",
+      "type": [
+        "number",
+      ],
     },
     "key": "number",
     "value": "42",
   },
 ]
+`;
+
+exports[`toJsonSchema: JSDoc with multiple types 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "securityContext": {
+      "type": [
+        "string",
+        "null",
+      ],
+    },
+  },
+  "required": [
+    "securityContext",
+  ],
+  "type": "object",
+}
 `;
 
 exports[`toJsonSchema: YAML with comments 1`] = `
@@ -206,14 +279,18 @@ exports[`toJsonSchema: YAML with comments 1`] = `
     "age": {
       "default": "42",
       "title": "Your age",
-      "type": "number",
+      "type": [
+        "number",
+      ],
     },
     "location": {
       "properties": {
         "country": {
           "default": "FR",
           "title": "Your country",
-          "type": "string",
+          "type": [
+            "string",
+          ],
         },
       },
       "required": [],
@@ -222,7 +299,9 @@ exports[`toJsonSchema: YAML with comments 1`] = `
     "name": {
       "default": "Jul",
       "title": "Your name",
-      "type": "string",
+      "type": [
+        "string",
+      ],
     },
   },
   "required": [
@@ -260,7 +339,9 @@ more info about that crazy family",
         "mother": {
           "description": "the mother is important in your life",
           "title": "The mother",
-          "type": "object",
+          "type": [
+            "object",
+          ],
         },
       },
       "required": [],
@@ -286,7 +367,9 @@ exports[`toJsonSchema: YAML with nestedcomments 1`] = `
               "properties": {
                 "name": {
                   "title": "The mother mother's name",
-                  "type": "string",
+                  "type": [
+                    "string",
+                  ],
                 },
               },
               "required": [],
@@ -295,7 +378,9 @@ exports[`toJsonSchema: YAML with nestedcomments 1`] = `
             },
             "name": {
               "title": "The mother's name",
-              "type": "string",
+              "type": [
+                "string",
+              ],
             },
           },
           "required": [
@@ -324,7 +409,9 @@ exports[`toJsonSchema: YAML with sections 1`] = `
       "properties": {
         "mother": {
           "title": "The mother",
-          "type": "object",
+          "type": [
+            "object",
+          ],
         },
       },
       "required": [],
@@ -375,7 +462,9 @@ exports[`toJsonSchema: add root properties 1`] = `
     "some": {
       "default": "thing",
       "title": "Some optional string",
-      "type": "string",
+      "type": [
+        "string",
+      ],
     },
   },
   "required": [],
@@ -391,7 +480,9 @@ exports[`toJsonSchema: single-line 1`] = `
     "number": {
       "default": "42",
       "title": "The magic number",
-      "type": "number",
+      "type": [
+        "number",
+      ],
     },
   },
   "required": [

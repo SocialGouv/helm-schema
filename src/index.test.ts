@@ -75,6 +75,14 @@ family:
 securityContext:
   `,
   },
+  {
+    title: "JSDoc with multiple types",
+    yaml: `
+
+# @param {string,null} securityContext
+securityContext:
+  `,
+  },
 ];
 
 tests.forEach((t) => {
