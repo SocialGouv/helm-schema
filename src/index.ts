@@ -7,8 +7,6 @@ import {
   BlockMap,
   Document,
   FlowCollection,
-  BlockScalar,
-  FlowScalar,
   SourceToken,
 } from "yaml/dist/parse/cst";
 import { JSONSchema4, JSONSchema4TypeName } from "json-schema";
