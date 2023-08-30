@@ -78,12 +78,10 @@
       "type": "string"
     },
     "nameOverride": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "fullnameOverride": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "serviceAccount": {
       "type": "object",
@@ -110,8 +108,7 @@
           "type": [
             "any"
           ],
-          "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template",
-          "default": ""
+          "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template"
         }
       }
     },
