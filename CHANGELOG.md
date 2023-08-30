@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/SocialGouv/helm-schema/compare/v1.2.1...v1.2.2) (2023-08-30)
+
+
+### Bug Fixes
+
+* skip empty defaults ([#8](https://github.com/SocialGouv/helm-schema/issues/8)) ([e42303a](https://github.com/SocialGouv/helm-schema/commit/e42303a45a85b946627a097acd9d61c388c662fa))
+
 ## [1.2.1](https://github.com/SocialGouv/helm-schema/compare/v1.2.0...v1.2.1) (2023-08-29)
 
 
