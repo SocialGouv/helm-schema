@@ -1,27 +1,19 @@
 {
   "type": "object",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "required": [
-    "smtp"
-  ],
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "required": ["smtp"],
   "properties": {
     "smtp": {
       "type": "object",
       "title": "Your SMTP setup",
-      "required": [
-        "host"
-      ],
+      "required": ["host"],
       "properties": {
         "host": {
-          "type": [
-            "string"
-          ],
+          "type": ["string"],
           "title": "SMTP hostname"
         },
         "port": {
-          "type": [
-            "number"
-          ],
+          "type": ["number"],
           "title": "SMTP hostname",
           "default": "587"
         }

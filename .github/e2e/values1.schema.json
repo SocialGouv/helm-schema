@@ -1,16 +1,10 @@
 {
   "type": "object",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "required": [
-    "replicaCount",
-    "resources",
-    "autoscaling"
-  ],
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "required": ["replicaCount", "resources", "autoscaling"],
   "properties": {
     "replicaCount": {
-      "type": [
-        "number"
-      ],
+      "type": ["number"],
       "title": "- number of replicas in the pgweb deployment",
       "default": "1"
     },
@@ -85,29 +79,19 @@
     },
     "serviceAccount": {
       "type": "object",
-      "required": [
-        "create",
-        "annotations",
-        "name"
-      ],
+      "required": ["create", "annotations", "name"],
       "properties": {
         "create": {
-          "type": [
-            "boolean"
-          ],
+          "type": ["boolean"],
           "title": "-- Specifies whether a service account should be created",
           "default": "false"
         },
         "annotations": {
-          "type": [
-            "any"
-          ],
+          "type": ["any"],
           "description": "Annotations to add to the service account"
         },
         "name": {
-          "type": [
-            "any"
-          ],
+          "type": ["any"],
           "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template"
         }
       }
@@ -122,22 +106,16 @@
       "type": "string"
     },
     "resources": {
-      "type": [
-        "any"
-      ],
+      "type": ["any"],
       "description": "custom resources"
     },
     "autoscaling": {
       "type": "object",
       "description": "Horizontal Pod autoscaler",
-      "required": [
-        "enabled"
-      ],
+      "required": ["enabled"],
       "properties": {
         "enabled": {
-          "type": [
-            "any"
-          ],
+          "type": ["any"],
           "description": "Horizontal Pod autoscaler",
           "default": "false"
         },

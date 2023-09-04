@@ -256,7 +256,7 @@ exports[`extractValues: single-line 1`] = `
 
 exports[`toJsonSchema: JSDoc with multiple types 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "securityContext": {
       "type": [
@@ -274,7 +274,7 @@ exports[`toJsonSchema: JSDoc with multiple types 1`] = `
 
 exports[`toJsonSchema: YAML with comments 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "age": {
       "default": "42",
@@ -314,7 +314,7 @@ exports[`toJsonSchema: YAML with comments 1`] = `
 
 exports[`toJsonSchema: YAML with external references 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "securityContext": {
       "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext",
@@ -330,7 +330,7 @@ exports[`toJsonSchema: YAML with external references 1`] = `
 
 exports[`toJsonSchema: YAML with multiline comment 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "family": {
       "description": "family blablab
@@ -357,7 +357,7 @@ more info about that crazy family",
 
 exports[`toJsonSchema: YAML with nestedcomments 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "family": {
       "properties": {
@@ -403,7 +403,7 @@ exports[`toJsonSchema: YAML with nestedcomments 1`] = `
 
 exports[`toJsonSchema: YAML with sections 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "family": {
       "properties": {
@@ -428,7 +428,7 @@ exports[`toJsonSchema: YAML with sections 1`] = `
 
 exports[`toJsonSchema: YAML without comment 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "age": {
       "default": "42",
@@ -457,7 +457,7 @@ exports[`toJsonSchema: YAML without comment 1`] = `
 exports[`toJsonSchema: add root properties 1`] = `
 {
   "$id": "some-id",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "some": {
       "default": "thing",
@@ -475,7 +475,7 @@ exports[`toJsonSchema: add root properties 1`] = `
 
 exports[`toJsonSchema: single-line 1`] = `
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "properties": {
     "number": {
       "default": "42",

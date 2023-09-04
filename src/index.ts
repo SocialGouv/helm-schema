@@ -276,7 +276,7 @@ export const toJsonSchema = (yaml: string, rootProps = {}): JSONSchema4 => {
     children: values,
   };
   const schema = nodeToJsonSchema(fullValues, {
-    $schema: "https://json-schema.org/draft/2020-12/schema",
+    $schema: "http://json-schema.org/draft-07/schema",
     ...rootProps,
   });
   return schema;
