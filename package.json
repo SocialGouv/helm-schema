@@ -21,7 +21,7 @@
     "dev": "tsc --watch --outDir build",
     "build": "ncc build ./src/index.ts",
     "test": "jest",
-    "snapshots": "yarn test -u && ./bin/index.js -f .github/e2e/values1.yaml > .github/e2e/values1.schema.json && ./bin/index.js -f .github/e2e/values2.yaml > .github/e2e/values2.schema.json",
+    "snapshots": "yarn build && yarn test -u && ./bin/index.js -f .github/e2e/values1.yaml > .github/e2e/values1.schema.json && ./bin/index.js -f .github/e2e/values2.yaml > .github/e2e/values2.schema.json",
     "lint": "eslint src/**/*.ts"
   },
   "dependencies": {
