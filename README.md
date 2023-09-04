@@ -73,13 +73,7 @@ This schema can then be used with your favorite editor for HELM values validatio
 
 ## Dev
 
-update snapshots :
-
-```sh
-yarn test -u
-./bin/index.js -f .github/e2e/values1.yaml > .github/e2e/values1.schema.json
-./bin/index.js -f .github/e2e/values2.yaml > .github/e2e/values2.schema.json
-```
+update snapshots : `yarn snapshots`
 
 ## Todo
 
