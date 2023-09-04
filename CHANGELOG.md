@@ -1,3 +1,11 @@
+## [1.2.3](https://github.com/SocialGouv/helm-schema/compare/v1.2.2...v1.2.3) (2023-09-04)
+
+
+### Bug Fixes
+
+* default schema version ([0e23a57](https://github.com/SocialGouv/helm-schema/commit/0e23a573daa502a6b3dbde5e35e88931f39c38bf))
+* snaps ([25c3e9c](https://github.com/SocialGouv/helm-schema/commit/25c3e9cabbb84404f5fad65dd134cab4365137e0))
+
 ## [1.2.2](https://github.com/SocialGouv/helm-schema/compare/v1.2.1...v1.2.2) (2023-08-30)
 
 
