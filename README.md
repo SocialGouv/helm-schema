@@ -13,7 +13,7 @@ Example `values.yaml`, following [JSDoc standards](https://devhints.io/jsdoc)
 smtp:
   # @param {string} host SMTP hostname
   host:
-  # @param {number} [port] SMTP hostname
+  # @param {number} [port] SMTP port
   port: 587
 
 # Setup your securityContext to reduce security risks, see https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -56,7 +56,7 @@ You get such JSON schema in result :
         },
         "port": {
           "type": "number",
-          "title": "SMTP hostname",
+          "title": "SMTP port",
           "default": "587"
         }
       }
