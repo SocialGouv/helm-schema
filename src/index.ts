@@ -80,7 +80,6 @@ const getCommentsSchema = (
       .map((row) => row.trim().replace(/^\s*#+\s*-*\s*(.*)/gm, "/** $1 */"))
       .join("\n") // replaces starting with # or # --
   );
-  console.log(parsedLines.map((d) => JSON.stringify(d)).join("\n"));
   const lastLine = parsedLines[parsedLines.length - 1];
   const description = parsedLines
     .map((line) => line.description)
@@ -132,7 +131,6 @@ const getCommentsSchema = (
   }
   const title = lastLine?.source[0]?.tokens?.name;
   if (!title && !description) return;
-  console.log(lastLine?.source);
   return {
     title,
     description,
