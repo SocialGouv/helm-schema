@@ -81,4 +81,5 @@ update snapshots : `yarn snapshots`
 
 - ~~multiline comments~~
 - sections
-- handle arrays
+- infer types from default values
+- ~~handle arrays~~
