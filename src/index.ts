@@ -102,7 +102,7 @@ const getCommentsSchema = (
     const name = lastLine?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
 
     const comment: ParsedComment = {
-      title: tag.description,
+      title: tag.description.replace(/^[\s-]+/g, ""),
       description,
       required: name ? name.indexOf("[") === -1 : true,
     };
@@ -135,7 +135,7 @@ const getCommentsSchema = (
     title,
     description,
     required: true,
-    type: [],
+    type: ["string", "boolean", "number", "object", "array"],
   };
 };
 
@@ -255,7 +255,8 @@ export const extractValues = (yaml: string) => {
 };
 
 // @ts-ignore
-const detectType = (some: any) => "string" as JSONSchema4TypeName;
+const detectType = (some: any) =>
+  ["string", "boolean", "number", "object", "array"] as JSONSchema4TypeName[];
 
 const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
   const schema: JSONSchema4 = {

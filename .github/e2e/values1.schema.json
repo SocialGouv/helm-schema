@@ -12,48 +12,114 @@
       "type": [
         "number"
       ],
-      "title": "- number of replicas in the pgweb deployment",
+      "title": "number of replicas in the pgweb deployment",
       "default": "1"
     },
     "enabled": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "namespace": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "repositoryName": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "host": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "targetPort": {
-      "type": "string",
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ],
       "default": "8081"
     },
     "servicePort": {
-      "type": "string",
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ],
       "default": "8081"
     },
     "certSecretName": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "env": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "envFrom": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "ingress": {
       "type": "object",
       "required": [],
       "properties": {
         "enabled": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "false"
         },
         "annotations": {
-          "type": "string"
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ]
         }
       }
     },
@@ -62,27 +128,63 @@
       "required": [],
       "properties": {
         "repository": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "sosedoff/pgweb"
         },
         "pullPolicy": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "IfNotPresent"
         },
         "tag": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "\"0.14.1\""
         }
       }
     },
     "imagePullSecrets": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "nameOverride": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "fullnameOverride": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "serviceAccount": {
       "type": "object",
@@ -96,30 +198,66 @@
           "type": [
             "boolean"
           ],
-          "title": "-- Specifies whether a service account should be created",
+          "title": "Specifies whether a service account should be created",
           "default": "false"
         },
         "annotations": {
-          "type": [],
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "description": "Annotations to add to the service account"
         },
         "name": {
-          "type": [],
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "description": "The name of the service account to use.\nIf not set and create is true, a name is generated using the fullname template"
         }
       }
     },
     "podAnnotations": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "podSecurityContext": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "securityContext": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "resources": {
-      "type": [],
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ],
       "description": "custom resources"
     },
     "autoscaling": {
@@ -130,26 +268,56 @@
       ],
       "properties": {
         "enabled": {
-          "type": [],
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "description": "Horizontal Pod autoscaler",
           "default": "false"
         },
         "minReplicas": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "1"
         },
         "maxReplicas": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "100"
         },
         "targetCPUUtilizationPercentage": {
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array"
+          ],
           "default": "80"
         }
       }
     },
     "nodeSelector": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "tolerations": {
       "type": "array",
@@ -158,10 +326,22 @@
       }
     },
     "affinity": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     },
     "extraArgs": {
-      "type": "string"
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array"
+      ]
     }
   }
 }

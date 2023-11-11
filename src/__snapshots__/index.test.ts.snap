@@ -137,7 +137,13 @@ exports[`extractValues: YAML with multiline comment 1`] = `
 more info about that crazy family",
       "required": true,
       "title": "",
-      "type": [],
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array",
+      ],
     },
     "key": "family",
     "type": [
@@ -501,13 +507,25 @@ exports[`toJsonSchema: YAML without comment 1`] = `
   "properties": {
     "age": {
       "default": "42",
-      "type": "string",
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array",
+      ],
     },
     "location": {
       "properties": {
         "country": {
           "default": "FR",
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array",
+          ],
         },
       },
       "required": [],
@@ -515,7 +533,13 @@ exports[`toJsonSchema: YAML without comment 1`] = `
     },
     "name": {
       "default": "Jul",
-      "type": "string",
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array",
+      ],
     },
   },
   "required": [],
