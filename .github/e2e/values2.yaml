@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=./values2.schema.json
+
 # @param {object} smtp Your SMTP setup
 smtp:
   # @param {string} host SMTP hostname

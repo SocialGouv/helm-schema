@@ -17,6 +17,42 @@ exports[`extractValues: JSDoc with multiple types 1`] = `
 ]
 `;
 
+exports[`extractValues: JSDoc with ref array 1`] = `
+[
+  {
+    "comment": {
+      "description": "",
+      "items": {
+        "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource",
+      },
+      "required": true,
+      "title": "",
+      "type": "array",
+    },
+    "key": "envFrom",
+  },
+]
+`;
+
+exports[`extractValues: JSDoc with string array 1`] = `
+[
+  {
+    "comment": {
+      "description": "",
+      "items": {
+        "type": [
+          "string",
+        ],
+      },
+      "required": true,
+      "title": "",
+      "type": "array",
+    },
+    "key": "command",
+  },
+]
+`;
+
 exports[`extractValues: YAML with comments 1`] = `
 [
   {
@@ -102,7 +138,11 @@ more info about that crazy family",
       "required": true,
       "title": "",
       "type": [
-        "any",
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array",
       ],
     },
     "key": "family",
@@ -200,9 +240,6 @@ exports[`extractValues: YAML with sections 1`] = `
       "description": "",
       "required": true,
       "title": "blablab",
-      "type": [
-        "",
-      ],
     },
     "key": "family",
     "type": [
@@ -267,6 +304,44 @@ exports[`toJsonSchema: JSDoc with multiple types 1`] = `
   },
   "required": [
     "securityContext",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: JSDoc with ref array 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "properties": {
+    "envFrom": {
+      "items": {
+        "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource",
+      },
+      "type": "array",
+    },
+  },
+  "required": [
+    "envFrom",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toJsonSchema: JSDoc with string array 1`] = `
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "properties": {
+    "command": {
+      "items": {
+        "type": [
+          "string",
+        ],
+      },
+      "type": "array",
+    },
+  },
+  "required": [
+    "command",
   ],
   "type": "object",
 }
@@ -432,13 +507,25 @@ exports[`toJsonSchema: YAML without comment 1`] = `
   "properties": {
     "age": {
       "default": "42",
-      "type": "string",
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array",
+      ],
     },
     "location": {
       "properties": {
         "country": {
           "default": "FR",
-          "type": "string",
+          "type": [
+            "string",
+            "boolean",
+            "number",
+            "object",
+            "array",
+          ],
         },
       },
       "required": [],
@@ -446,7 +533,13 @@ exports[`toJsonSchema: YAML without comment 1`] = `
     },
     "name": {
       "default": "Jul",
-      "type": "string",
+      "type": [
+        "string",
+        "boolean",
+        "number",
+        "object",
+        "array",
+      ],
     },
   },
   "required": [],

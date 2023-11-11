@@ -9,16 +9,21 @@ import {
   FlowCollection,
   SourceToken,
 } from "yaml/dist/parse/cst";
-import { JSONSchema4, JSONSchema4TypeName } from "json-schema";
+import {
+  JSONSchema4,
+  JSONSchema4Object,
+  JSONSchema4TypeName,
+} from "json-schema";
 
 import { flattenYaml } from "./flatten";
 
 interface ParsedComment {
   title: string;
   description: string;
-  type?: JSONSchema4TypeName[];
+  type?: JSONSchema4TypeName | JSONSchema4TypeName[];
   $ref?: string;
   required: boolean;
+  items?: JSONSchema4Object;
 }
 
 interface YamlScalar {
@@ -65,11 +70,14 @@ function hasItems(
 /**
  * Parse node comment with JSDoc like annotations
  */
-const parseCommentLine = (source: string): ParsedComment | undefined => {
+const getCommentsSchema = (
+  comments: SourceToken[]
+): ParsedComment | undefined => {
+  const source = comments.map((n) => n.source).join("\n");
   const parsedLines = commentParser(
     source
       .split("\n")
-      .map((row) => row.trim().replace(/^\s*#+\s*(?:-)*\s*(.*)/gm, "/** $1 */"))
+      .map((row) => row.trim().replace(/^\s*#+\s*-*\s*(.*)/gm, "/** $1 */"))
       .join("\n") // replaces starting with # or # --
   );
   const lastLine = parsedLines[parsedLines.length - 1];
@@ -80,21 +88,44 @@ const parseCommentLine = (source: string): ParsedComment | undefined => {
   if (lastLine && lastLine.tags && lastLine.tags.length) {
     const tag = lastLine.tags[0];
 
-    const type = tag.type && tag.type.replace(/^\{(.*)\}$/g, "$1");
-    const isExternalref = !!type.match(/^https?:\/\//);
+    let type;
+    let isArray = false;
+    if (tag.type) {
+      if (tag.type.match(/^(.*)\[\]$/g)) {
+        type = tag.type.replace(/^(.*)\[\]$/g, "$1");
+        isArray = true;
+      } else {
+        type = tag.type.replace(/^(.*)$/g, "$1");
+      }
+    }
+    const isExternalref = type && !!type.match(/^https?:\/\//);
     const name = lastLine?.source[0]?.tokens?.name || tag.name; // check if optiona [name]
 
     const comment: ParsedComment = {
-      title: tag.description,
+      title: tag.description.replace(/^[\s-]+/g, ""),
       description,
       required: name ? name.indexOf("[") === -1 : true,
     };
-    if (isExternalref) {
-      comment.$ref = type;
+
+    if (isArray) {
+      comment.type = "array" as JSONSchema4TypeName;
+      comment.items = {};
+
+      if (isExternalref) {
+        comment.items.$ref = type;
+      } else {
+        comment.items.type =
+          type &&
+          (type.replace(/(.*)\?$/, "$1").split(",") as JSONSchema4TypeName[]); // remove question mark
+      }
     } else {
-      comment.type = type
-        .replace(/(.*)\?$/, "$1")
-        .split(",") as JSONSchema4TypeName[]; // remove question mark
+      if (isExternalref) {
+        comment.$ref = type;
+      } else {
+        comment.type =
+          type &&
+          (type.replace(/(.*)\?$/, "$1").split(",") as JSONSchema4TypeName[]); // remove question mark
+      }
     }
     return comment;
   }
@@ -104,11 +135,11 @@ const parseCommentLine = (source: string): ParsedComment | undefined => {
     title,
     description,
     required: true,
-    type: ["any"],
+    type: ["string", "boolean", "number", "object", "array"],
   };
 };
 
-const getValues = (
+const extractValuesFromTree = (
   root: Token[],
   child?: Token | CollectionItem
 ): YamlScalar[] => {
@@ -130,7 +161,7 @@ const getValues = (
       scalar.children = node.value.items.flatMap((n) => {
         //@ts-ignore
         n.parent = node;
-        return getValues(root, n);
+        return extractValuesFromTree(root, n);
       });
       scalar.type = ["object"];
     }
@@ -143,14 +174,14 @@ const getValues = (
       if (!item.parent) {
         // @ts-ignore
         item.parent = node;
-        values.push(...getValues(root, item));
+        values.push(...extractValuesFromTree(root, item));
       }
     });
   }
   return values;
 };
 
-const getComment = (nodes: (Token | SourceToken)[], offset: number) => {
+const getComments = (nodes: (Token | SourceToken)[], offset: number) => {
   const remaining = nodes.filter((node) => node.offset < offset);
   let comments: SourceToken[] = [];
   let lastType: string;
@@ -174,22 +205,19 @@ const getComment = (nodes: (Token | SourceToken)[], offset: number) => {
   return comments.reverse();
 };
 
-const addComments = (
+const addCommentsSchemas = (
   values: YamlScalar[],
   nodes: (Token | SourceToken)[]
 ): void => {
   values.forEach((value) => {
     if (value.offset) {
-      const comment = getComment(nodes, value.offset);
-      const description = comment.map((n) => n.source).join("\n");
-      const parsed = parseCommentLine(description);
-      //console.log("parsed", parsed);
-      if (comment) {
-        value.comment = parsed;
+      const comments = getComments(nodes, value.offset);
+      if (comments && comments.length) {
+        value.comment = getCommentsSchema(comments);
       }
     }
     if (value.children) {
-      addComments(value.children, nodes);
+      addCommentsSchemas(value.children, nodes);
     }
   });
 };
@@ -213,19 +241,22 @@ export const extractValues = (yaml: string) => {
 
   const tokens: Token[] = Array.from(parsed);
 
-  const values = tokens.flatMap((token) => getValues(tokens, token));
+  const values = tokens.flatMap((token) =>
+    extractValuesFromTree(tokens, token)
+  );
 
   const flattenedNodes = flattenYaml(yaml);
 
   //@ts-ignore
-  addComments(values, flattenedNodes);
+  addCommentsSchemas(values, flattenedNodes);
   cleanUp(values);
   const cleaned = cleanUndefined(values);
   return cleaned;
 };
 
 // @ts-ignore
-const detectType = (some: any) => "string" as JSONSchema4TypeName;
+const detectType = (some: any) =>
+  ["string", "boolean", "number", "object", "array"] as JSONSchema4TypeName[];
 
 const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
   const schema: JSONSchema4 = {
@@ -233,17 +264,20 @@ const nodeToJsonSchema = (node: YamlScalar, rootProps = {}): JSONSchema4 => {
     ...rootProps,
   };
   if (node.comment?.type) {
-    schema.type = node.comment?.type;
+    schema.type = node.comment.type;
   }
   if (node.comment?.title) {
-    schema.title = node.comment?.title;
+    schema.title = node.comment.title;
   }
   if (node.comment?.$ref) {
-    schema.$ref = node.comment?.$ref;
+    schema.$ref = node.comment.$ref;
     delete schema.type;
   }
+  if (node.comment?.items) {
+    schema.items = node.comment.items;
+  }
   if (node.comment?.description) {
-    schema.description = node.comment?.description;
+    schema.description = node.comment.description;
   }
   if (node.value) {
     if (node.value.replace(/^\"\"$/, "").length) {

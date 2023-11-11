@@ -83,7 +83,32 @@ securityContext:
 securityContext:
   `,
   },
+  {
+    title: "JSDoc with string array",
+    yaml: `
+
+# @param {string[]} command
+command:
+  `,
+    //  "type": "array"
+    //  "items": {
+    //     "type": "string"
+    //   },
+  },
+  {
+    title: "JSDoc with ref array",
+    yaml: `
+
+# @param {https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource[]} envFrom
+envFrom:
+  `,
+  },
 ];
+
+//  "type": "array"
+//  "items": {
+//     "$ref": "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.24.0/_definitions.json#/definitions/io.k8s.api.core.v1.EnvFromSource"
+//   },
 
 tests.forEach((t) => {
   test(`extractValues: ${t.title}`, () => {
