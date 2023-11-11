@@ -71,6 +71,8 @@ You get such JSON schema in result :
 
 This schema can then be used with your favorite editor for HELM values validation.
 
+⚠️ Be sure to add an `$id` to the schema if its meant to be referenced from other schemas
+
 ## Dev
 
 update snapshots : `yarn snapshots`
