@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/SocialGouv/helm-schema/compare/v1.2.3...v1.2.4) (2023-11-11)
+
+
+### Bug Fixes
+
+* handle array definitions ([#16](https://github.com/SocialGouv/helm-schema/issues/16)) ([f281eb6](https://github.com/SocialGouv/helm-schema/commit/f281eb67e9c968863b0eb9e373ef5dde1d300d41))
+
 ## [1.2.3](https://github.com/SocialGouv/helm-schema/compare/v1.2.2...v1.2.3) (2023-09-04)
 
 
