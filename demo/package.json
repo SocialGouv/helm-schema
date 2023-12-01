@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@socialgouv/helm-schema": "^1.2.4",
-    "@uiw/react-textarea-code-editor": "^2.1.7",
+    "@uiw/react-textarea-code-editor": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-github-fork-banner": "^1.1.3"
